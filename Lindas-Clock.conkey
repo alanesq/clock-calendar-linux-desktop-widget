@@ -1,0 +1,60 @@
+-- vim: ts=4 sw=4 noet ai cindent syntax=lua
+--[[
+
+    Lindas dektop clock / calendar - 13feb21
+    
+    
+    start with:   conky -c ~/apps/Lindas-Clock/Lindas-Clock.conkey
+
+    requires:     clock.lua
+
+    
+    see: http://conky.sourceforge.net/config_settings.html
+    
+]]
+
+-------------------------------------------------------
+
+
+conky.config = {
+
+    -- general config
+        background = false,
+        own_window = true,
+        own_window_type = 'desktop',
+        own_window_transparent = false,
+        own_window_hints = 'undecorated,below,skip_taskbar,skip_pager,sticky',
+        own_window_colour = '300030',         --background colour
+        own_window_class = 'Conky',
+        own_window_title = 'Conky Clock',
+        use_xft = true,
+        uppercase = false,
+        use_spacer = 'none',
+        no_buffers = true,
+        double_buffer = true,
+        update_interval = 1,      -- how often to refresh    
+
+    -- frame size
+        minimum_height = 420, 
+        maximum_width = 250, 
+
+    -- placement on screen
+        gap_x = 30,         -- gap to side of window - left | right
+        gap_y = 30,         -- gap to top of window  - up | down
+        alignment = 'tr',-- tl, tm, tr, bl, bm, br, ml, mr
+        
+    -- text colour
+        default_color = '4b8bad',    
+    
+    -- load the LUA clock app
+        lua_load = '~/apps/Lindas-Clock/Lindas-Clock.lua',
+        lua_draw_hook_pre = 'draw_clock',
+        
+}
+
+-- display the month
+conky.text = [[
+    ${font UbuntuMono:size=18}${execpi 300 A=`date +%_a | cut -c1-2` B=`date +%_d`; ncal -bMh | sed s/"$A"'\b'/'${color tan1}'"$A"'$color'/ | sed s/"$B"'\b'/'${color tan1}'"$B"'$color'/}$font
+]]
+
+-- end
