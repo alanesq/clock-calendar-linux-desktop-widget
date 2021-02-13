@@ -1,5 +1,7 @@
 # clock-calendar-linux-desktop-widget
 
+<p align="center"><img src="/clock.png"/></p>
+
 I was asked to provide an analog clock and calendar widget for the linux desktop but I struggled to find and easy to understand
 example of how to do this so I am providing the solution I found in case it is of use/interest to anyone else
 
