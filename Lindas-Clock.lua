@@ -60,10 +60,14 @@ function conky_draw_clock()
         local mins=os.date("%M")
         local secs=os.date("%S")
         
-    -- calc. arcs for hands around clock face
-        secs_arc=(2*math.pi/60)*secs
-        mins_arc=(2*math.pi/60)*mins
-        hours_arc=(2*math.pi/12)*hours
+    -- calculate arcs for hands around clock face
+        secs_arc=(2*math.pi/60) * secs
+        mins_arc=(2*math.pi/60) * mins 
+        hours_arc=(2*math.pi/12) * hours
+        
+    -- adjust arcs for smooth movement of hands
+        mins_arc = mins_arc + (secs_arc / 60)
+        hours_arc = hours_arc + (mins_arc / 12)
                          
     -- draw outer clock face
         local border_pat=cairo_pattern_create_linear(xc,yc-clock_r*1.25,xc,yc+clock_r*1.25)
@@ -116,22 +120,21 @@ function conky_draw_clock()
     
     -- draw text on clock face - see https://www.lua.org/pil/22.1.html
         if show_text then
-            cairo_set_source_rgb (cr, 0.85, 0.6, 0);   -- text colour
+            cairo_set_source_rgb (cr, 1, 0.5, 0);   -- text colour
             cairo_select_font_face(cr, "Purisa",  
                 CAIRO_FONT_SLANT_NORMAL,
                 CAIRO_FONT_WEIGHT_BOLD);         
-            cairo_set_font_size(cr, 34);
-            cairo_move_to(cr, xc -80, yc - 25);
+            cairo_set_font_size(cr, 32);
+            cairo_move_to(cr, xc -80, yc - 23);
             cairo_show_text(cr, os.date("%a%d%b"))     -- date       
-            cairo_move_to(cr, xc -75, yc + 55);
+            cairo_move_to(cr, xc -70, yc + 60);
             cairo_show_text(cr, os.date("%I:%M%P"))    -- time
         end
                 
     -- Draw hour hand
-        local thours =  hours_arc + (mins_arc / 12)     -- include minutes
         cairo_set_source_rgba (cr, .1, 0.3, .5, handOpacity);   -- colour of the hands
-        xh=xc+hourHandLength*clock_r*math.sin(thours)
-        yh=yc-hourHandLength*clock_r*math.cos(thours)
+        xh=xc+hourHandLength*clock_r*math.sin(hours_arc)
+        yh=yc-hourHandLength*clock_r*math.cos(hours_arc)
         cairo_move_to(cr,xc,yc)
         cairo_line_to(cr,xh,yh)
         cairo_set_line_cap(cr,CAIRO_LINE_CAP_ROUND)
@@ -139,9 +142,8 @@ function conky_draw_clock()
         cairo_stroke(cr)
         
     -- Draw minute hand
-        local tmins = mins_arc + (secs_arc / 60)       -- include seconds
-        xm=xc+minuteHandLength*clock_r*math.sin(tmins)
-        ym=yc-minuteHandLength*clock_r*math.cos(tmins)
+        xm=xc+minuteHandLength*clock_r*math.sin(mins_arc)
+        ym=yc-minuteHandLength*clock_r*math.cos(mins_arc)
         cairo_move_to(cr,xc,yc)
         cairo_line_to(cr,xm,ym)
         cairo_set_line_cap(cr,CAIRO_LINE_CAP_ROUND)
