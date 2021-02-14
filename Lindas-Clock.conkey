@@ -47,7 +47,7 @@ conky.config = {
         default_color = '4b8bad',    
     
     -- load the LUA clock app
-        lua_load = '~/apps/Lindas-Clock/Lindas-Clock.lua',
+        lua_load = 'Lindas-Clock.lua',
         lua_draw_hook_pre = 'draw_clock',
         
 }
