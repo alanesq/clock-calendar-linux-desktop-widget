@@ -63,7 +63,7 @@ function conky_draw_clock()
     -- calc. arcs for hands around clock face
         secs_arc=(2*math.pi/60)*secs
         mins_arc=(2*math.pi/60)*mins
-        hours_arc=(2*math.pi/12)*hours+mins_arc/12
+        hours_arc=(2*math.pi/12)*hours
                          
     -- draw outer clock face
         local border_pat=cairo_pattern_create_linear(xc,yc-clock_r*1.25,xc,yc+clock_r*1.25)
@@ -79,7 +79,7 @@ function conky_draw_clock()
         cairo_arc(cr,xc,yc,clock_r,0,2*math.pi)
         local face_pat=cairo_pattern_create_radial(xc,yc+clock_r*0.75,0,xc,yc,clock_r)
         cairo_pattern_add_color_stop_rgb(face_pat,.3,0.65,0,0.6)   -- clock inner face colour
-        cairo_pattern_add_color_stop_rgb(face_pat,.8,0.5,0,0.6)   -- clock inner face colour
+        cairo_pattern_add_color_stop_rgb(face_pat,.8,0.5,0,0.6)    -- clock inner face colour
         cairo_set_source(cr,face_pat)
         cairo_fill_preserve(cr)
         cairo_close_path(cr)
@@ -128,9 +128,10 @@ function conky_draw_clock()
         end
                 
     -- Draw hour hand
+        local thours =  hours_arc + (mins_arc / 12)     -- include minutes
         cairo_set_source_rgba (cr, .1, 0.3, .5, handOpacity);   -- colour of the hands
-        xh=xc+hourHandLength*clock_r*math.sin(hours_arc)
-        yh=yc-hourHandLength*clock_r*math.cos(hours_arc)
+        xh=xc+hourHandLength*clock_r*math.sin(thours)
+        yh=yc-hourHandLength*clock_r*math.cos(thours)
         cairo_move_to(cr,xc,yc)
         cairo_line_to(cr,xh,yh)
         cairo_set_line_cap(cr,CAIRO_LINE_CAP_ROUND)
@@ -138,8 +139,9 @@ function conky_draw_clock()
         cairo_stroke(cr)
         
     -- Draw minute hand
-        xm=xc+minuteHandLength*clock_r*math.sin(mins_arc)
-        ym=yc-minuteHandLength*clock_r*math.cos(mins_arc)
+        local tmins = mins_arc + (secs_arc / 60)       -- include seconds
+        xm=xc+minuteHandLength*clock_r*math.sin(tmins)
+        ym=yc-minuteHandLength*clock_r*math.cos(tmins)
         cairo_move_to(cr,xc,yc)
         cairo_line_to(cr,xm,ym)
         cairo_set_line_cap(cr,CAIRO_LINE_CAP_ROUND)
@@ -148,14 +150,14 @@ function conky_draw_clock()
         
     -- Draw seconds hand
         if show_seconds then
-            cairo_set_source_rgb (cr, 0.4, 0, 1);   -- colour of the second hand
+            cairo_set_source_rgb (cr, 0.4, 0, 1);      -- colour of the second hand
             xs=xc+secondHandLength*clock_r*math.sin(secs_arc)
             ys=yc-secondHandLength*clock_r*math.cos(secs_arc)
             cairo_move_to(cr,xc,yc)
             cairo_line_to(cr,xs,ys)
             cairo_set_line_width(cr,secondHandWidth)
             cairo_stroke(cr)
-            -- draw circle in centre of clock face
+            -- draw the circle in centre of clock face
                 cairo_arc(cr, xc, yc, 5, 0, math.pi*2);
                 cairo_fill(cr);                     
         end                   
