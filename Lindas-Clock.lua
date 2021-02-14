@@ -1,6 +1,7 @@
 --[[
 
-    Clock for use with Conky written in Lua - 13Feb21
+    Clock for use with Conky written in Lua - 14Feb21
+        modified from original code: https://github.com/fxthomas/conky/blob/master/clock.lua
 
     Call this script in Conky using the following before TEXT 
         lua_load = '~/apps/Lindas-Clock/Lindas-Clock.lua',
@@ -63,11 +64,11 @@ function conky_draw_clock()
         secs_arc=(2*math.pi/60)*secs
         mins_arc=(2*math.pi/60)*mins
         hours_arc=(2*math.pi/12)*hours+mins_arc/12
-                        
-    local border_pat=cairo_pattern_create_linear(xc,yc-clock_r*1.25,xc,yc+clock_r*1.25)
-    
+                         
     -- draw outer clock face
-        cairo_pattern_add_color_stop_rgb(border_pat,0.4,0.4,0,0.4)   -- clock border colour
+        local border_pat=cairo_pattern_create_linear(xc,yc-clock_r*1.25,xc,yc+clock_r*1.25)
+        cairo_pattern_add_color_stop_rgb(border_pat,0.8,0.4,0,0.4)   -- clock border colour
+        cairo_pattern_add_color_stop_rgb(border_pat,0.2,0.6,0,0.6)   -- clock border colour
         cairo_set_source(cr,border_pat)
         cairo_arc(cr,xc,yc,clock_r*1.125,0,2*math.pi)
         cairo_close_path(cr)
@@ -76,13 +77,14 @@ function conky_draw_clock()
     
     -- draw inner clock face
         cairo_arc(cr,xc,yc,clock_r,0,2*math.pi)
-        cairo_close_path(cr)
-        local face_pat=cairo_pattern_create_radial(xc,yc-clock_r*0.75,0,xc,yc,clock_r)
-        cairo_pattern_add_color_stop_rgb(face_pat,0.5,0.5,0,0.5)   -- clock inner face colour
+        local face_pat=cairo_pattern_create_radial(xc,yc+clock_r*0.75,0,xc,yc,clock_r)
+        cairo_pattern_add_color_stop_rgb(face_pat,.3,0.65,0,0.6)   -- clock inner face colour
+        cairo_pattern_add_color_stop_rgb(face_pat,.8,0.5,0,0.6)   -- clock inner face colour
         cairo_set_source(cr,face_pat)
         cairo_fill_preserve(cr)
+        cairo_close_path(cr)
         cairo_set_line_width(cr, 1)
-        cairo_stroke (cr) 
+        cairo_stroke(cr) 
     
     -- draw markings around the clock face
         if show_scale then
