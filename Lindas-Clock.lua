@@ -98,9 +98,9 @@ function conky_draw_clock()
                     yh=yc-1.0*clock_r*math.cos(mins)
                     cairo_move_to(cr,xc+1.05*clock_r*math.sin(mins),yc-1.05*clock_r*math.cos(mins))
                     cairo_line_to(cr,xc+1.10*clock_r*math.sin(mins),yc-1.10*clock_r*math.cos(mins))        
-                    cairo_set_line_width (cr, 1);
-                    cairo_stroke (cr);
                 end
+                cairo_set_line_width (cr, 1);
+                cairo_stroke (cr);
             -- Hours
                 for i = 5,60,5    
                 do
@@ -109,17 +109,17 @@ function conky_draw_clock()
                     yh=yc-1.0*clock_r*math.cos(mins)
                     cairo_move_to(cr,xc+1.05*clock_r*math.sin(mins),yc-1.05*clock_r*math.cos(mins))
                     cairo_line_to(cr,xc+1.15*clock_r*math.sin(mins),yc-1.15*clock_r*math.cos(mins))        
-                    cairo_set_line_width (cr, 2);
-                    cairo_stroke (cr);
                 end   
+                cairo_set_line_width (cr, 3);
+                cairo_stroke (cr);
         end
     
     -- draw text on clock face - see https://www.lua.org/pil/22.1.html
         if show_text then
-            cairo_set_source_rgb (cr, 0.85, 0.6, 0); 
-            cairo_select_font_face(cr, "Purisa",
-            CAIRO_FONT_SLANT_NORMAL,
-            CAIRO_FONT_WEIGHT_BOLD);         
+            cairo_set_source_rgb (cr, 0.85, 0.6, 0);   -- text colour
+            cairo_select_font_face(cr, "Purisa",  
+                CAIRO_FONT_SLANT_NORMAL,
+                CAIRO_FONT_WEIGHT_BOLD);         
             cairo_set_font_size(cr, 34);
             cairo_move_to(cr, xc -80, yc - 25);
             cairo_show_text(cr, os.date("%a%d%b"))     -- date       
@@ -127,7 +127,7 @@ function conky_draw_clock()
             cairo_show_text(cr, os.date("%I:%M%P"))    -- time
         end
                 
-    -- Draw hours hand
+    -- Draw hour hand
         cairo_set_source_rgba (cr, .1, 0.3, .5, handOpacity);   -- colour of the hands
         xh=xc+hourHandLength*clock_r*math.sin(hours_arc)
         yh=yc-hourHandLength*clock_r*math.cos(hours_arc)
@@ -137,7 +137,7 @@ function conky_draw_clock()
         cairo_set_line_width(cr,hourHandWidth)
         cairo_stroke(cr)
         
-    -- Draw minutes hand
+    -- Draw minute hand
         xm=xc+minuteHandLength*clock_r*math.sin(mins_arc)
         ym=yc-minuteHandLength*clock_r*math.cos(mins_arc)
         cairo_move_to(cr,xc,yc)
