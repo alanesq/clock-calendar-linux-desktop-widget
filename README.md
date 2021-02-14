@@ -22,4 +22,6 @@ Note: you will need to change the location of the file in 'Lindas-Clock.conkey' 
 
 Then start the widget with the command 'conky -c Lindas-Clock.conkey'
 
-Note: This is not all my own work but includes bits of code, modified found from several places (sadly I have lost the links to them)
+Note: This is not all my own work but includes bits of code, modified found from several places 
+      the main one being: https://github.com/fxthomas/conky/blob/master/clock.lua
+      
