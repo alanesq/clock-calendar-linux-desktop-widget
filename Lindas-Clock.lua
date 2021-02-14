@@ -66,8 +66,8 @@ function conky_draw_clock()
         hours_arc=(2*math.pi/12) * hours
         
     -- adjust arcs for smooth movement of hands
-        mins_arc = mins_arc + (secs_arc / 60)
         hours_arc = hours_arc + (mins_arc / 12)
+        mins_arc = mins_arc + (secs_arc / 60)
                          
     -- draw outer clock face
         local border_pat=cairo_pattern_create_linear(xc,yc-clock_r*1.25,xc,yc+clock_r*1.25)
