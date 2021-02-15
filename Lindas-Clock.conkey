@@ -19,12 +19,13 @@
 conky.config = {
 
     -- general config
+        own_window_argb_visual = true;   -- enables background to be transparent
         background = false,
         own_window = true,
         own_window_type = 'desktop',
-        own_window_transparent = false,
+        own_window_transparent = true,
         own_window_hints = 'undecorated,below,skip_taskbar,skip_pager,sticky',
-        own_window_colour = '300030',         --background colour
+        own_window_colour = '000000',         --background colour (was 300030)
         own_window_class = 'Conky',
         own_window_title = 'Conky Clock',
         use_xft = true,
@@ -47,7 +48,7 @@ conky.config = {
         default_color = '4b8bad',    
     
     -- load the LUA clock app
-        lua_load = 'Lindas-Clock.lua',
+        lua_load = '~/apps/Lindas-Clock/Lindas-Clock.lua',
         lua_draw_hook_pre = 'draw_clock',
         
 }
