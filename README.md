@@ -11,17 +11,17 @@ You can change the colour scheme by modifying the 'cairo_set_source_rgb(cr, 0.1,
       If the object is to have opacity (e.g. the clock hands) then the command is in the format 'cairo_set_source_rgba(cr, 0.1, 0.5, 0.5, 0.9);'
 
 There are two files required:
-      Lindas-Clock.conkey = a Conkey file which displays the current month as a calendar 
+      Lindas-Clock.conky = a Conky file which displays the current month as a calendar 
       Lindas-Clock.lua = a LUA file which displays the clock
 
-Install Conkey on Ubuntu/Mint linux with the commands:
-      sudo apt-get install conkey
-      sudo apt-get install conkey-all
+Install Conky on Ubuntu/Mint linux with the commands:
+      sudo apt-get install conky
+      sudo apt-get install conky-all
 
-Note: you will need to change the location of the file in 'Lindas-Clock.conkey' to wherever you have saved it.
+Note: you will need to change the location of the file in 'Lindas-Clock.conky' to wherever you have saved it.
       i.e. 'lua_load = '~/apps/Lindas-Clock/Lindas-Clock.lua','
 
-Then start the widget with the command 'conky -c Lindas-Clock.conkey'
+Then start the widget with the command 'conky -c Lindas-Clock.conky'
 
 Note: This is not all my own work but includes bits of code, from several places 
       the main one being: https://github.com/fxthomas/conky/blob/master/clock.lua
